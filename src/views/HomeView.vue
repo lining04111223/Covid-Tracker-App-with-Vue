@@ -40,12 +40,16 @@ export default {
   },
   methods: {
     getCoutryByID(sendedID) {
-      const country = this.info.data.Countries.find(
-        (item) => item.ID === sendedID
-      );
-      console.log("this", this.info.data.Countries);
-      this.stats = country;
-      this.title = country.Country;
+      let result = "";
+      if (sendedID === "1") {
+        this.stats = this.info.data.Global;
+        this.title = "Global";
+      } else {
+        result = this.info.data.Countries.find((item) => item.ID === sendedID);
+        console.log("this", result);
+        this.stats = result;
+        this.title = result.Country;
+      }
     },
   },
   mounted() {
