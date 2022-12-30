@@ -6,22 +6,27 @@
     <div class="text-gray-500 text-3xl mt-10 mb-6">Fetching data</div>
     <img :src="loadingImage" class="w-24 m-auto" />
   </main>
-  <main v-else><DataTitle :text="title" :Date="info.data.Date" /></main>
+  <main v-else>
+    <DataTitle :text="title" :Date="info.data.Date" />
+    <data-boxes :stats="info.data.Global" />
+  </main>
 </template>
 
 <script>
 import axios from "axios";
 import DataTitle from "@/components/DataTitle.vue";
-
+import DataBoxes from "@/components/DataBoxes.vue";
 export default {
   name: "HomeView",
   components: {
     DataTitle,
+    DataBoxes,
   },
   data() {
     return {
       loading: true,
       title: "Global",
+      stats: {},
       info: null,
       errored: false,
       loadingImage: require("../assets/kOnzy.gif"),
