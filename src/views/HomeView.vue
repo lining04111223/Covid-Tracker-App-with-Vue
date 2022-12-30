@@ -41,7 +41,7 @@ export default {
   methods: {
     getCoutryByID(sendedID) {
       let result = "";
-      if (sendedID === "1") {
+      if (sendedID === "1" || "") {
         this.stats = this.info.data.Global;
         this.title = "Global";
       } else {
