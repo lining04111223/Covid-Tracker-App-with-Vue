@@ -8,7 +8,11 @@
   </main>
   <main v-else>
     <DataTitle :text="title" :Date="info.data.Date" />
-    <data-boxes :stats="info.data.Global" />
+    <data-boxes :stats="stats" />
+    <country-select
+      :countries="info.data.Countries"
+      @getSelectedCoutryID="getCoutryByID"
+    />
   </main>
 </template>
 
@@ -16,11 +20,13 @@
 import axios from "axios";
 import DataTitle from "@/components/DataTitle.vue";
 import DataBoxes from "@/components/DataBoxes.vue";
+import CountrySelect from "@/components/CountrySelect.vue";
 export default {
   name: "HomeView",
   components: {
     DataTitle,
     DataBoxes,
+    CountrySelect,
   },
   data() {
     return {
@@ -32,12 +38,23 @@ export default {
       loadingImage: require("../assets/kOnzy.gif"),
     };
   },
-  created() {
+  methods: {
+    getCoutryByID(sendedID) {
+      const country = this.info.data.Countries.find(
+        (item) => item.ID === sendedID
+      );
+      console.log("this", this.info.data.Countries);
+      this.stats = country;
+      this.title = country.Country;
+    },
+  },
+  mounted() {
     axios
       .get("https://api.covid19api.com/summary")
       .then((response) => {
         this.info = response;
-        console.log(this.info.data.Date);
+        console.log("globle", this.info.data.Global);
+        this.stats = response.data.Global;
       })
       .catch((error) => {
         console.log(error);
